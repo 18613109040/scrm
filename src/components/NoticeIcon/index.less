@@ -1,0 +1,41 @@
+@import "~antd/es/style/themes/default.less";
+
+.notice-container {
+  background-color: @popover-bg;
+  border-radius: 4px;
+  box-shadow: @shadow-1-down;
+}
+
+.notice-button {
+  display: inline-block;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.icon {
+  padding: 4px;
+  font-size: 19px;
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: 16px;
+  box-shadow: "none";
+}
+
+.tabs {
+  :global {
+    .ant-tabs-nav-list {
+      margin: auto;
+    }
+
+    .ant-tabs-nav-scroll {
+      text-align: center;
+    }
+    .ant-tabs-bar {
+      margin-bottom: 0;
+    }
+    .ant-tabs-nav {
+      padding: 0 20px;
+    }
+  }
+}

@@ -1,0 +1,70 @@
+.login-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: url("~@/assets/images/login/bg.png") no-repeat center;
+  background-size: cover;
+  .box {
+    display: flex;
+    justify-content: center;
+    width: 1156px;
+    height: 600px;
+    margin: 12% auto 0;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 13px 5px rgb(14 25 80 / 20%);
+    .left-middle {
+      width: 716px;
+      height: 600px;
+      img {
+        width: 100%;
+        height: 600px;
+        border: none;
+      }
+    }
+    .right-middle {
+      flex: 1;
+      width: 440px;
+      height: 600px;
+      background: #fff;
+      :global {
+        .ant-input {
+          height: 38px;
+        }
+      }
+      .site-form-item-icon {
+        font-size: 24px;
+      }
+      .form-context {
+        width: 318px;
+        margin: 0 auto;
+        margin-top: 60px;
+      }
+      .title {
+        display: block;
+        margin-bottom: 50px;
+        color: #0092e7;
+        font-size: 30px;
+        letter-spacing: 2px;
+        text-align: center;
+      }
+    }
+  }
+  .remeber-text {
+    text-align: right;
+  }
+  .submit-btn {
+    width: 100%;
+    height: 56px;
+    padding: 0px;
+    color: #fff;
+    font-size: 18px;
+    line-height: 56px;
+    letter-spacing: 2px;
+    background: #14a7ff;
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: 0.3s all linear;
+  }
+}

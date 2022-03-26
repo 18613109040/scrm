@@ -1,0 +1,9 @@
+/lambda/
+/scripts
+config
+.history
+public
+.umi
+commitlint.config.js
+prettier.config.js
+# .cz-config.js
