@@ -8,11 +8,11 @@
  */
 export default {
   dev: {
-    "/prod-api": {
-      target: "http://ssnh.wang:10002",
-      changeOrigin: true
-      // pathRewrite: { "^/dev/h5": "" }
-    }
+    // "/prod-api": {
+    //   target: "http://ssnh.wang:10002",
+    //   changeOrigin: true
+    //   // pathRewrite: { "^/dev/h5": "" }
+    // }
   },
   prod: {
     "/api/": {

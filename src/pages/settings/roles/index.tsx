@@ -1,12 +1,46 @@
-import { useEffect, useState } from "react";
-import { Menu, Input, Button, message, Checkbox } from "antd";
-import { UsergroupAddOutlined } from "@ant-design/icons";
-
+import ProTable from "@ant-design/pro-table";
+import { Button } from "antd";
+import { useEffect } from "react";
 import styles from "./index.less";
 
 const Roles = () => {
   useEffect(() => {}, []);
-
-  return <div className={styles["role-container"]}>角色管理</div>;
+  const columns = [
+    {
+      dataIndex: "name",
+      title: "角色名称"
+    },
+    {
+      dataIndex: "name",
+      title: "数据权限"
+    },
+    {
+      valueType: "option",
+      title: "操作",
+      key: "option",
+      render: (text, record) => {
+        return (
+          <a key="editable" onClick={() => {}}>
+            编辑
+          </a>
+        );
+      }
+    }
+  ];
+  return (
+    <div className={styles["role-container"]}>
+      <ProTable
+        columns={columns}
+        dataSource={[]}
+        search={false}
+        options={false}
+        toolBarRender={() => [
+          <Button type="primary" key="show">
+            新增角色
+          </Button>
+        ]}
+      />
+    </div>
+  );
 };
 export default Roles;
