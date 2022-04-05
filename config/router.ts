@@ -20,6 +20,12 @@ export default [
     ]
   },
   {
+    name: "",
+    layout: false,
+    path: "/design/edit",
+    component: "./design/edit"
+  },
+  {
     component: "./404"
   }
 ];
