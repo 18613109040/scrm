@@ -1,7 +1,7 @@
 import ProTable from "@ant-design/pro-table";
 import { Button } from "antd";
 import { useEffect } from "react";
-import styles from "./index.less";
+// import styles from "./index.less";
 
 const Roles = () => {
   useEffect(() => {}, []);
@@ -18,7 +18,7 @@ const Roles = () => {
       valueType: "option",
       title: "操作",
       key: "option",
-      render: (text, record) => {
+      render: () => {
         return (
           <a key="editable" onClick={() => {}}>
             编辑

@@ -12,7 +12,7 @@ import defaultSettings from "../config/defaultSettings";
 import { Fragment } from "react";
 import { history } from "umi";
 import { Inspector } from "react-dev-inspector";
-import type { UserData, UserInfoData } from "@/services/login";
+import type { UserData } from "@/services/login";
 import { userInfoService } from "@/services/login";
 import { LOGIN_PATH } from "@/constant";
 import RightContent from "@/components/RightContent";
