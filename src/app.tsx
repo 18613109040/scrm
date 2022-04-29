@@ -53,17 +53,14 @@ export async function getInitialState(): Promise<InitalStateProps> {
     settings: defaultSettings
   };
 }
+// keys={["control", "shift", "command", "c"]} disableLaunchEditor={false}
 export const layout = (initialState: InitalStateProps) => {
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
     onPageChange: () => {},
     menuHeaderRender: undefined,
-    childrenRender: (children: React.ReactNode) => (
-      <InspectorWrapper keys={["control", "shift", "command", "c"]} disableLaunchEditor={false}>
-        {children}
-      </InspectorWrapper>
-    ),
+    childrenRender: (children: React.ReactNode) => <Fragment>{children}</Fragment>,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,
     ...initialState?.settings

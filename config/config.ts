@@ -53,11 +53,15 @@ export default defineConfig({
   manifest: {
     basePath: "/"
   },
-  // nodeModulesTransform: { type: "none" },
+  nodeModulesTransform: { type: "all" },
   mfsu: {},
   webpack5: {},
   dynamicImport: {
     loading: "@ant-design/pro-layout/es/PageLoading"
   },
-  plugins: ["react-dev-inspector/plugins/umi/react-inspector"]
+  // plugins: ["react-dev-inspector/plugins/umi/react-inspector"],
+  // 修复构建文件中含有.mjs
+  chainWebpack(config) {
+    config.module.rule("mjs-rule").test(/.m?js/).resolve.set("fullySpecified", false);
+  }
 });
