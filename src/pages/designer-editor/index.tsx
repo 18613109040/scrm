@@ -7,23 +7,26 @@ import styles from "./index.less";
 import Sider from "./Sider";
 import { Layout } from "antd";
 import Canvas from "./Canvas";
+import Provider from "./store/provider";
 const AppDesigner = () => {
   useEffect(() => {}, []);
 
   return (
     <div className={styles["designer-editor"]}>
-      <DndProvider backend={HTML5Backend}>
-        <Layout style={{ height: "100%" }}>
-          <Layout.Sider theme="light">
-            <Sider />
-          </Layout.Sider>
-          <Layout.Content>
-            <Canvas />
-          </Layout.Content>
-        </Layout>
-        {/* <Header />
-        <TopBar /> */}
-      </DndProvider>
+      <Provider>
+        <DndProvider backend={HTML5Backend}>
+          <Header />
+          <TopBar />
+          <Layout style={{ height: "100%" }}>
+            <Layout.Sider theme="light" width="280" className={styles["sider-theme"]}>
+              <Sider />
+            </Layout.Sider>
+            <Layout.Content>
+              <Canvas />
+            </Layout.Content>
+          </Layout>
+        </DndProvider>
+      </Provider>
     </div>
   );
 };

@@ -1,15 +1,23 @@
 import React, { useReducer, useState } from "react";
 import Context from "./context";
-// import type { ActionProps, InitStateProps } from "./reducer";
-// import { initState, reducer } from "./reducer";
-
+type InitStateProps = {
+  pages: any[];
+  dimensions: {
+    with: number;
+    height: number;
+  };
+};
 export type ProviderProps = {
   children?: React.ReactNode;
   state?: InitStateProps;
   // dispatch?: React.Dispatch<ActionProps>;
 };
 const inintState = {
-  pages: []
+  pages: [],
+  dimensions: {
+    with: 377,
+    height: 669
+  }
 };
 const Provider = (props: ProviderProps) => {
   // const [state, dispatch] = useReducer(reducer, initState);

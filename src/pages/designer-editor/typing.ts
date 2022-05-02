@@ -2,7 +2,13 @@ export enum WidgetType {
   /** 单行文本 */
   INPUT,
   /** 多行文本 */
-  TEXTAREA
+  TEXTAREA,
+  /** 单选 */
+  RADIO,
+  /** 多选 */
+  CHECKBOX,
+  /**下拉选择 */
+  SELECT
 }
 /** 基础组件类型 */
 export type BaseWidgetProps = {

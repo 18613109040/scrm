@@ -22,7 +22,7 @@ const DragContainer: React.FC<DragContainerProps> = (props): ReactElement => {
     type: DRAG_DROP_TYPE,
     item: { ...data },
     end(item: any, monitor: DragSourceMonitor) {
-      console.log(monitor.didDrop());
+      // console.log(monitor.didDrop());
       if (monitor.didDrop()) {
         console.log("end");
         onDragEnd && onDragEnd({ ...item, id: `_widget_${item.type}_${nanoid()}` });

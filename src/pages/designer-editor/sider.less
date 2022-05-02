@@ -1,3 +1,45 @@
 .designer-editor-sider {
+  padding: 10px;
   font-size: 14px;
+  .h-title {
+    color: #333;
+    font-weight: 700;
+  }
+  .widgets-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .drag-item {
+      width: calc(50% - 5px);
+      margin-top: 12px;
+    }
+    .widget-item {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      min-height: 36px;
+      list-style: none;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid transparent;
+      border-radius: 4px;
+      box-shadow: rgb(0 0 0 / 12%) 0 0 4px;
+      cursor: move;
+      .widget-title {
+        margin-left: 10px;
+      }
+      &:hover {
+        color: rgb(33, 150, 243);
+        background-color: rgb(240, 248, 255);
+      }
+      &:active {
+        color: rgb(33, 150, 243);
+        background-color: rgb(240, 248, 255);
+      }
+      .icon-tag {
+        font-size: 14px;
+      }
+    }
+  }
 }
