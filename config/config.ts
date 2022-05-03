@@ -53,6 +53,16 @@ export default defineConfig({
   manifest: {
     basePath: "/"
   },
+  extraBabelPlugins: [
+    [
+      "import",
+      {
+        libraryName: "antd-mobile",
+        libraryDirectory: "es/components",
+        style: false
+      }
+    ]
+  ],
   nodeModulesTransform: { type: "all" },
   mfsu: {},
   webpack5: {},

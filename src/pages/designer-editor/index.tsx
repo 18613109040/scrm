@@ -10,16 +10,16 @@ import Canvas from "./Canvas";
 import Provider from "./store/provider";
 const AppDesigner = () => {
   useEffect(() => {}, []);
-
+  const handleWidgetDragEnd = () => {};
   return (
     <div className={styles["designer-editor"]}>
       <Provider>
         <DndProvider backend={HTML5Backend}>
           <Header />
           <TopBar />
-          <Layout style={{ height: "100%" }}>
+          <Layout style={{ height: "calc(100% - 88px)" }}>
             <Layout.Sider theme="light" width="280" className={styles["sider-theme"]}>
-              <Sider />
+              <Sider onWidgetDragEnd={handleWidgetDragEnd} />
             </Layout.Sider>
             <Layout.Content>
               <Canvas />

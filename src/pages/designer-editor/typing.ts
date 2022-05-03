@@ -21,7 +21,25 @@ export type BaseWidgetProps = {
   /** 自定义ID */
   id?: string;
   /** 组件类型 */
-  type: WidgetType;
+  type?: WidgetType;
+  /** 拖动显示效果 */
+  dragPreviewImage?: string;
+  /** 标题 */
+  title?: string;
+  /** 组件icon */
+  icon?: string;
+  /** 提示文字 */
+  hint?: string;
+  /** 宽度 */
+  span?: number;
 };
 
 export type WidgetProps = BaseWidgetProps;
+
+/** 平台类型 */
+export enum PlatformType {
+  /** PC 端 */
+  PC = "pc",
+  /** H5 端 */
+  H5 = "h5"
+}

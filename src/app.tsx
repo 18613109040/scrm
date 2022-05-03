@@ -16,7 +16,7 @@ import type { UserData } from "@/services/login";
 import { userInfoService } from "@/services/login";
 import { LOGIN_PATH } from "@/constant";
 import RightContent from "@/components/RightContent";
-
+import "antd-mobile/es/global";
 const InspectorWrapper = process.env.REACT_APP_ENV === "dev" ? Inspector : Fragment;
 export const initialStateConfig = {
   loading: <PageLoading />

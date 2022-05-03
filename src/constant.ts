@@ -1,11 +1,3 @@
-/*
- * :file description:
- * :name: /hotel-sass/src/constant.ts
- * :author: 胡东亮
- * :date created: 2021-08-25 10:05:28
- * :last editor: 胡东亮
- * :date last edited: 2021-09-02 15:59:55
- */
 const { REACT_APP_ENV } = process.env;
 type IBase = {
   PREFIX_URL: string;
@@ -51,3 +43,5 @@ export enum formType {
   UPDATA
 }
 export const LOGIN_PATH = "/user/login";
+
+export const BASE_OSS_URL = "http://it-operation-group.oss-cn-shenzhen.aliyuncs.com/designer";
