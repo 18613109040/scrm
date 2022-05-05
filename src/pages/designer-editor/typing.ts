@@ -32,6 +32,7 @@ export type BaseWidgetProps = {
   hint?: string;
   /** 宽度 */
   span?: number;
+  row?: number;
 };
 
 export type WidgetProps = BaseWidgetProps;

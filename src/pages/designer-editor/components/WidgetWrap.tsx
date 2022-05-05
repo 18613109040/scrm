@@ -1,17 +1,17 @@
 import type { ReactNode } from "react";
-import { useEffect, useImperativeHandle, forwardRef } from "react";
-
-import React, { useContext, useState, useRef } from "react";
-import type { DragSourceMonitor, DropTargetMonitor } from "react-dnd";
-import { useDrop } from "react-dnd";
-import { useDrag } from "react-dnd";
-import { DRAG_DROP_TYPE } from "../constant";
-import { Col, Tooltip } from "antd";
+import { useState } from "react";
+import React, { forwardRef, useRef } from "react";
+import type { DragSourceMonitor, DropTargetMonitor, XYCoord } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
+import { Col, Tooltip, Form as PcForm } from "antd";
 import { Form as MobileForm } from "antd-mobile";
 import { CopyOutlined, DeleteOutlined } from "@ant-design/icons";
 import classNames from "classnames";
-import styles from "./widgetwrap.less";
+import { DRAG_DROP_TYPE } from "../constant";
 import type { WidgetProps } from "../typing";
+import { PlatformType } from "../typing";
+import styles from "./widgetwrap.less";
+import { HoverDirection } from "../Canvas";
 
 export type WidgetAction = {
   getBoundingClientRect: () => void;
@@ -23,28 +23,27 @@ type DragContainerProps = {
   children: ReactNode;
   data: WidgetProps;
   ref?: React.Ref<WidgetAction>;
-
-  hoverRow?: number;
-  hoverCol?: number;
+  platform?: PlatformType;
+  row?: number;
+  onExchangeMove?: (dragIndex: number, hoverIndex: number) => void;
+  onMove?: (hoverIndex: number, direction: HoverDirection) => void;
 };
+
 const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
-  const { children, data } = props;
+  const { children, data, platform, row, onExchangeMove, onMove } = props;
   const dragRef = useRef<HTMLDivElement>(null);
-  const FormItem = MobileForm.Item;
-  // useImperativeHandle(ref, () => ({
-  //   getBoundingClientRect: () => dragRef.current?.getBoundingClientRect(),
-  //   row,
-  //   col
-  // }));
+
+  const FormItem = platform === PlatformType.H5 ? MobileForm.Item : PcForm.Item;
   const [{ isDragging }, drag] = useDrag({
     type: DRAG_DROP_TYPE,
     item: () => {
-      return { ...data };
+      return { ...data, row };
     },
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging()
     }),
-    end(item: any, monitor: DragSourceMonitor) {
+    end(item: WidgetProps, monitor: DragSourceMonitor) {
+      console.log("widgetwrap-drag-end", item);
       // if (monitor.didDrop()) {
       // }
     }
@@ -57,8 +56,34 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
         handlerId: monitor.getHandlerId()
       };
     },
-    hover: (item: any, monitor: DropTargetMonitor) => {},
-    drop() {}
+    hover: (item: WidgetProps, monitor: DropTargetMonitor) => {
+      if (dragRef.current && monitor.getClientOffset()) {
+        const dragIndex = item.row;
+        const hoverIndex = row; // 0 1234
+        if (dragIndex === hoverIndex) {
+          return;
+        }
+        const hoverBoundingRect = dragRef.current?.getBoundingClientRect();
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const clientOffset = monitor.getClientOffset();
+
+        const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+        if (hoverClientY < hoverBoundingRect!.height && hoverClientY > 1.2 * hoverMiddleY) {
+          onMove!(hoverIndex!, HoverDirection.BOTTOM);
+          return;
+        }
+        if (hoverClientY > 0 && hoverClientY < 0.8 * hoverMiddleY) {
+          onMove!(hoverIndex!, HoverDirection.TOP);
+          return;
+        }
+        // onMove!(dragIndex!, HoverDirection.NULL);
+        // onExchangeMove && onExchangeMove(dragIndex!, hoverIndex!);
+        // item.row = hoverIndex;
+      }
+    },
+    drop() {
+      console.log("widgetwrap-drop-end");
+    }
   });
 
   const cls = classNames(styles["drag-wrap-item"], {
@@ -66,7 +91,7 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
     [styles["is-drag"]]: isDragging
   });
   drag(drop(dragRef));
-  const horizontalLineCls = classNames(styles["horizontal-line"]);
+
   const handleCopy = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     // onCopy && onCopy(row, col);
@@ -75,9 +100,10 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
     e.stopPropagation();
     // onDelete && onDelete(row, col);
   };
+
   return (
     <Col ref={dragRef} className={cls} span={data?.span} data-handler-id={handlerId}>
-      <div className={styles["operation-line"]}>
+      {/* <div className={styles["operation-line"]}>
         <div className={styles["operation-wrap"]}>
           <div className={styles["operation-icon"]}>
             <Tooltip title="复制控件">
@@ -90,10 +116,8 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
             </Tooltip>
           </div>
         </div>
-      </div>
-      {/* {(hoverDirection === DirectionType.LEFT || hoverDirection === DirectionType.RIGHT) &&
-        hoverRow === row &&
-        hoverCol === col && <div className={horizontalLineCls} />} */}
+      </div> */}
+
       <FormItem required={data?.required || false} label={data?.title} disabled>
         {children}
       </FormItem>

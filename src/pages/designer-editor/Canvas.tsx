@@ -1,5 +1,5 @@
-import { Button, Tooltip, Image, Row } from "antd";
-import { useContext, useEffect, useState } from "react";
+import { Form as PcForm, Image, Row } from "antd";
+import { useCallback, useContext, useEffect, useState } from "react";
 import type { DropTargetMonitor } from "react-dnd";
 import { useDrop } from "react-dnd";
 import { DRAG_DROP_TYPE } from "./constant";
@@ -11,12 +11,21 @@ import { Form as MobileForm } from "antd-mobile";
 import WidgetWrap from "./components/WidgetWrap";
 import DynamicComponent from "./components/DynamicComponent";
 import type { WidgetProps } from "./typing";
+import { PlatformType } from "./typing";
+export enum HoverDirection {
+  NULL,
+  /** 上 */
+  TOP,
+  BOTTOM
+}
 
 const Canvas = () => {
-  const { state, pushWidget } = useContext(Context);
-
-  const { dimensions, currentPage, pages } = state!;
+  const { state, pushWidget, moveWidget } = useContext(Context);
+  const { dimensions, currentPage, pages, platform } = state!;
   const { height, width } = dimensions;
+  const From = platform === PlatformType.H5 ? MobileForm : PcForm;
+  const [hoverDirection, setHoverDirection] = useState(HoverDirection.NULL);
+  const [hoverIndex, setHoverIndex] = useState(-1);
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: DRAG_DROP_TYPE,
     collect(monitor: DropTargetMonitor) {
@@ -31,9 +40,17 @@ const Canvas = () => {
     },
     drop(item: any) {
       console.log("drop---end", item);
-      pushWidget!(item);
+      // pushWidget!(item);
     }
   });
+  const handleExchangeMove = useCallback((dragIndex: number, index: number) => {
+    moveWidget!(dragIndex, index);
+  }, []);
+  const handleMove = (index: number, direction: HoverDirection) => {
+    console.log("======", index, direction);
+    setHoverDirection(direction);
+    setHoverIndex(index);
+  };
   const renderEmpty = () => {
     return (
       <>
@@ -46,14 +63,29 @@ const Canvas = () => {
       </>
     );
   };
-  const From = MobileForm;
+  const verticalLineCls = classNames(styles["vertical-line"], {
+    [styles["drage-bootom"]]: hoverDirection === HoverDirection.BOTTOM,
+    [styles["drage-top"]]: hoverDirection === HoverDirection.TOP
+  });
+
   const renderWidgets = () => (
     <From layout="horizontal">
       <Row>
-        {(pages[currentPage] || []).map((widget: WidgetProps) => (
-          <WidgetWrap data={widget} key={widget?.id}>
-            <DynamicComponent data={widget} />
-          </WidgetWrap>
+        {(pages[currentPage] || []).map((widget: WidgetProps, row: number) => (
+          <div key={widget?.id} className={styles["widget-wrap-container"]}>
+            {hoverDirection !== HoverDirection.NULL && hoverIndex === row && (
+              <div className={verticalLineCls} />
+            )}
+            <WidgetWrap
+              data={widget}
+              platform={platform}
+              row={row}
+              onMove={handleMove}
+              onExchangeMove={handleExchangeMove}
+            >
+              <DynamicComponent data={widget} />
+            </WidgetWrap>
+          </div>
         ))}
       </Row>
     </From>

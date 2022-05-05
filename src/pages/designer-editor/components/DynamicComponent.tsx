@@ -23,7 +23,6 @@ type DynamicComponentType = {
   data: WidgetProps;
 };
 const DynamicComponent = memo((props: DynamicComponentType) => {
-  console.log(props.data);
   const Dynamic = useMemo(() => {
     return DynamicFunc(props.data);
   }, []);
