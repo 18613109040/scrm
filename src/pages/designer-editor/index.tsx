@@ -8,9 +8,9 @@ import Sider from "./Sider";
 import { Layout } from "antd";
 import Canvas from "./Canvas";
 import Provider from "./store/provider";
+import type { WidgetProps } from "./typing";
 const AppDesigner = () => {
   useEffect(() => {}, []);
-  const handleWidgetDragEnd = () => {};
   return (
     <div className={styles["designer-editor"]}>
       <Provider>
@@ -19,7 +19,7 @@ const AppDesigner = () => {
           <TopBar /> */}
           <Layout style={{ height: "calc(100% - 88px)" }}>
             <Layout.Sider theme="light" width="280" className={styles["sider-theme"]}>
-              {/* <Sider onWidgetDragEnd={handleWidgetDragEnd} /> */}
+              <Sider />
             </Layout.Sider>
             <Layout.Content>
               <Canvas />

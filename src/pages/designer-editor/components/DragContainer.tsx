@@ -12,7 +12,7 @@ import type { WidgetProps } from "../typing";
 type DragContainerProps = {
   children: ReactNode;
   className?: string;
-  onDragEnd?: (data: any) => void;
+  onDragEnd?: (data: WidgetProps) => void;
   onClick?: (data: WidgetProps) => void;
   data: WidgetProps;
 };
@@ -20,11 +20,11 @@ const DragContainer: React.FC<DragContainerProps> = (props): ReactElement => {
   const { children, className, onDragEnd, onClick, data } = props;
   const [, drag, preview] = useDrag({
     type: DRAG_DROP_TYPE,
-    item: { ...data, row: 0, col: 0, id: `_widget_${data.type}_${nanoid()}`, span: 24 },
+    item: { ...data, row: 0, col: 0, span: 24 },
     end(item: any, monitor: DragSourceMonitor) {
       if (monitor.didDrop()) {
         console.log("========drag-----end==========", item);
-        // onDragEnd && onDragEnd({ ...item, id: `_widget_${item.type}_${nanoid()}` });
+        onDragEnd && onDragEnd({ ...item, id: `_widget_${item.type}_${nanoid()}` });
       }
     }
   });

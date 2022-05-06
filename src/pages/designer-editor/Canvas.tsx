@@ -67,7 +67,6 @@ const Canvas = () => {
     [styles["drage-bootom"]]: hoverDirection === HoverDirection.BOTTOM,
     [styles["drage-top"]]: hoverDirection === HoverDirection.TOP
   });
-  console.log(pages[currentPage]);
   const renderWidgets = () => (
     <From layout="horizontal">
       <Row>

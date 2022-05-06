@@ -3,21 +3,18 @@ import { useContext, useEffect } from "react";
 import DragContainer from "./components/DragContainer";
 import { sliderWidgets } from "./constant";
 import styles from "./sider.less";
-import { WidgetType } from "./typing";
+import Context from "./store/context";
+import type { WidgetProps } from "./typing";
 
-type SiderProps = {
-  onWidgetDragEnd: () => void;
-};
-
-const Sider = (props: SiderProps) => {
-  const { onWidgetDragEnd } = props;
+const Sider = () => {
+  const { insertWidget } = useContext(Context);
   useEffect(() => {}, []);
   const handleClick = () => {
     console.log("click");
   };
-  const handleDragEnd = () => {
-    console.log("handleDragEnd");
-    onWidgetDragEnd && onWidgetDragEnd();
+  const handleDragEnd = (data: WidgetProps) => {
+    console.log("handleDragEnd", data);
+    insertWidget!(data);
   };
   return (
     <div className={styles["designer-editor-sider"]}>

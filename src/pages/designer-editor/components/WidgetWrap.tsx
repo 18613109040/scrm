@@ -61,39 +61,34 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
       if (dragRef.current && monitor.getClientOffset()) {
         const dragIndex = item.row;
         const hoverIndex = row;
-        if (dragIndex === hoverIndex) {
-          return;
-        }
+        console.log("=============", "dragIndex=", dragIndex, "hoverIndex=", hoverIndex);
+        // if (dragIndex === hoverIndex) {
+        //   return;
+        // }
         item.row = hoverIndex;
         const hoverBoundingRect = dragRef.current?.getBoundingClientRect();
         const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const clientOffset = monitor.getClientOffset();
 
         const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-        // if (hoverClientY < hoverBoundingRect!.height && hoverClientY > 1.2 * hoverMiddleY) {
-        //   onMove!(hoverIndex!, HoverDirection.BOTTOM);
-        //   return;
-        // }
-        if (dragIndex! < hoverIndex! && hoverClientY < hoverMiddleY) {
+        if (hoverClientY < hoverBoundingRect!.height && hoverClientY > 1.2 * hoverMiddleY) {
           onMove!(hoverIndex!, HoverDirection.BOTTOM);
           return;
         }
-        if (dragIndex! > hoverIndex! && hoverClientY > hoverMiddleY) {
-          onMove!(hoverIndex!, HoverDirection.TOP);
-          return;
-        }
-        // if (hoverClientY > 0 && hoverClientY < 0.8 * hoverMiddleY) {
+        // if (dragIndex! < hoverIndex! && hoverClientY < hoverMiddleY) {
+        //   onMove!(hoverIndex!, HoverDirection.BOTTOM);
+        //   return;
+        // }
+        // if (dragIndex! > hoverIndex! && hoverClientY > hoverMiddleY) {
         //   onMove!(hoverIndex!, HoverDirection.TOP);
         //   return;
         // }
-        // onMove!(dragIndex!, HoverDirection.NULL);
-        // onExchangeMove && onExchangeMove(dragIndex!, hoverIndex!);
+        if (hoverClientY > 0 && hoverClientY < 0.8 * hoverMiddleY) {
+          onMove!(hoverIndex!, HoverDirection.TOP);
+          return;
+        }
       }
     }
-    // drop(item: WidgetProps) {
-    //   // console.log("widgetwrap-drop-end", item, row);
-    //   // onExchangeMove && onExchangeMove(row!, item.row!);
-    // }
   });
 
   const cls = classNames(styles["drag-wrap-item"], {
