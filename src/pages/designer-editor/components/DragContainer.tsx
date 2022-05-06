@@ -22,10 +22,10 @@ const DragContainer: React.FC<DragContainerProps> = (props): ReactElement => {
     type: DRAG_DROP_TYPE,
     item: { ...data, row: 0, col: 0, id: `_widget_${data.type}_${nanoid()}`, span: 24 },
     end(item: any, monitor: DragSourceMonitor) {
-      console.log("drag-----end", item);
-      // if (monitor.didDrop()) {
-      //   onDragEnd && onDragEnd({ ...item, id: `_widget_${item.type}_${nanoid()}` });
-      // }
+      if (monitor.didDrop()) {
+        console.log("========drag-----end==========", item);
+        // onDragEnd && onDragEnd({ ...item, id: `_widget_${item.type}_${nanoid()}` });
+      }
     }
   });
   const handleClick = () => {

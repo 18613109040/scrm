@@ -34,14 +34,14 @@ const Canvas = () => {
         isOver: monitor.isOver(),
         canDrop: monitor.canDrop()
       };
-    },
-    hover(item: any, monitor: DropTargetMonitor) {
-      // 组件拖到到可拖动区域
-    },
-    drop(item: any) {
-      console.log("drop---end", item);
-      // pushWidget!(item);
     }
+    // hover(item: any, monitor: DropTargetMonitor) {
+    //   // 组件拖到到可拖动区域
+    // },
+    // drop(item: any) {
+    //   console.log("drop---end", item);
+    //   // pushWidget!(item);
+    // }
   });
   const handleExchangeMove = useCallback((dragIndex: number, index: number) => {
     moveWidget!(dragIndex, index);
@@ -67,7 +67,7 @@ const Canvas = () => {
     [styles["drage-bootom"]]: hoverDirection === HoverDirection.BOTTOM,
     [styles["drage-top"]]: hoverDirection === HoverDirection.TOP
   });
-
+  console.log(pages[currentPage]);
   const renderWidgets = () => (
     <From layout="horizontal">
       <Row>

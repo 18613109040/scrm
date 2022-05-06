@@ -32,7 +32,6 @@ type DragContainerProps = {
 const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
   const { children, data, platform, row, onExchangeMove, onMove } = props;
   const dragRef = useRef<HTMLDivElement>(null);
-
   const FormItem = platform === PlatformType.H5 ? MobileForm.Item : PcForm.Item;
   const [{ isDragging }, drag] = useDrag({
     type: DRAG_DROP_TYPE,
@@ -42,10 +41,12 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
     collect: (monitor: any) => ({
       isDragging: monitor.isDragging()
     }),
-    end(item: WidgetProps, monitor: DragSourceMonitor) {
-      console.log("widgetwrap-drag-end", item);
-      // if (monitor.didDrop()) {
-      // }
+    end(item: WidgetProps, monitor: any) {
+      onMove!(-1, HoverDirection.NULL);
+      console.log("=======widgetwrap-drag-end======", row, item);
+      if (monitor.didDrop()) {
+        onExchangeMove && onExchangeMove(row!, item.row!);
+      }
     }
   });
 
@@ -59,31 +60,40 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
     hover: (item: WidgetProps, monitor: DropTargetMonitor) => {
       if (dragRef.current && monitor.getClientOffset()) {
         const dragIndex = item.row;
-        const hoverIndex = row; // 0 1234
+        const hoverIndex = row;
         if (dragIndex === hoverIndex) {
           return;
         }
+        item.row = hoverIndex;
         const hoverBoundingRect = dragRef.current?.getBoundingClientRect();
         const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
         const clientOffset = monitor.getClientOffset();
 
         const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-        if (hoverClientY < hoverBoundingRect!.height && hoverClientY > 1.2 * hoverMiddleY) {
+        // if (hoverClientY < hoverBoundingRect!.height && hoverClientY > 1.2 * hoverMiddleY) {
+        //   onMove!(hoverIndex!, HoverDirection.BOTTOM);
+        //   return;
+        // }
+        if (dragIndex! < hoverIndex! && hoverClientY < hoverMiddleY) {
           onMove!(hoverIndex!, HoverDirection.BOTTOM);
           return;
         }
-        if (hoverClientY > 0 && hoverClientY < 0.8 * hoverMiddleY) {
+        if (dragIndex! > hoverIndex! && hoverClientY > hoverMiddleY) {
           onMove!(hoverIndex!, HoverDirection.TOP);
           return;
         }
+        // if (hoverClientY > 0 && hoverClientY < 0.8 * hoverMiddleY) {
+        //   onMove!(hoverIndex!, HoverDirection.TOP);
+        //   return;
+        // }
         // onMove!(dragIndex!, HoverDirection.NULL);
         // onExchangeMove && onExchangeMove(dragIndex!, hoverIndex!);
-        // item.row = hoverIndex;
       }
-    },
-    drop() {
-      console.log("widgetwrap-drop-end");
     }
+    // drop(item: WidgetProps) {
+    //   // console.log("widgetwrap-drop-end", item, row);
+    //   // onExchangeMove && onExchangeMove(row!, item.row!);
+    // }
   });
 
   const cls = classNames(styles["drag-wrap-item"], {

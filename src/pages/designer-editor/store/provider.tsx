@@ -4,16 +4,6 @@ import { PlatformType } from "../typing";
 import type { WidgetProps } from "../typing";
 import Context from "./context";
 
-function arrayMove<T>(array: T[], fromIndex: number, toIndex: number) {
-  const startIndex = fromIndex < 0 ? array.length + fromIndex : fromIndex;
-  if (startIndex >= 0 && startIndex < array.length) {
-    const endIndex = toIndex < 0 ? array.length + toIndex : toIndex;
-    const [item] = array.splice(fromIndex, 1);
-    array.splice(endIndex, 0, item);
-  }
-  return array;
-}
-
 type InitStateProps = {
   pages: WidgetProps[][];
   currentPage: number;
@@ -73,19 +63,17 @@ const inintState: InitStateProps = {
 };
 
 const Provider = (props: ProviderProps) => {
-  const [state, setState] = useState(produce(inintState, (draft) => draft));
+  const [state, setState] = useState(inintState);
   // 页面尾部新增个组件
   function pushWidget(widget: WidgetProps) {
-    const newState = produce(state, (draft) => {
-      draft.pages[state.currentPage].push(widget);
-    });
-    setState(newState);
+    state.pages[state.currentPage].push(widget);
+    setState({ ...state });
   }
   function moveWidget(fromIndex: number, toIndex: number) {
-    const newState = produce(state, (draft) => {
-      arrayMove(draft.pages[draft.currentPage], fromIndex, toIndex);
-    });
-    setState(newState);
+    console.log("fromIndex=", fromIndex, "toIndex=", toIndex);
+    const tempWidget = state.pages[state.currentPage].splice(fromIndex, 1);
+    state.pages[state.currentPage].splice(toIndex, 0, tempWidget[0]);
+    setState({ ...state });
   }
   return (
     <Context.Provider value={{ state, pushWidget, moveWidget }}>{props?.children}</Context.Provider>
