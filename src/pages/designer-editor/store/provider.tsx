@@ -21,40 +21,7 @@ export type ProviderProps = {
   insertWidget?: (widget: WidgetProps) => void;
 };
 const inintState: InitStateProps = {
-  pages: [
-    [
-      {
-        type: 0,
-        title: "文本",
-        row: 0,
-        id: "0"
-      },
-      {
-        type: 0,
-        title: "文本1",
-        row: 1,
-        id: "1"
-      },
-      {
-        type: 0,
-        title: "文本2",
-        row: 2,
-        id: "2"
-      },
-      {
-        type: 0,
-        title: "文本3",
-        row: 3,
-        id: "3"
-      },
-      {
-        type: 0,
-        title: "文本4",
-        row: 4,
-        id: "4"
-      }
-    ]
-  ],
+  pages: [[]],
   currentPage: 0,
   dimensions: {
     width: 377,
@@ -71,7 +38,7 @@ const Provider = (props: ProviderProps) => {
     setState({ ...state });
   }
   function insertWidget(widget: WidgetProps) {
-    state.pages[state.currentPage].splice(widget.row!, 0, widget);
+    state.pages[state.currentPage].splice(widget.row! + 1, 0, widget);
     setState({ ...state });
   }
   // 移动

@@ -46,9 +46,8 @@ const Canvas = () => {
   const handleExchangeMove = useCallback((dragIndex: number, index: number) => {
     moveWidget!(dragIndex, index);
   }, []);
-  const handleMove = (index: number, direction: HoverDirection) => {
-    console.log("======", index, direction);
-    setHoverDirection(direction);
+  const handleMove = (index: number) => {
+    if (index === hoverIndex) return;
     setHoverIndex(index);
   };
   const renderEmpty = () => {
@@ -63,18 +62,13 @@ const Canvas = () => {
       </>
     );
   };
-  const verticalLineCls = classNames(styles["vertical-line"], {
-    [styles["drage-bootom"]]: hoverDirection === HoverDirection.BOTTOM,
-    [styles["drage-top"]]: hoverDirection === HoverDirection.TOP
-  });
+
   const renderWidgets = () => (
     <From layout="horizontal">
       <Row>
         {(pages[currentPage] || []).map((widget: WidgetProps, row: number) => (
           <div key={widget?.id} className={styles["widget-wrap-container"]}>
-            {hoverDirection !== HoverDirection.NULL && hoverIndex === row && (
-              <div className={verticalLineCls} />
-            )}
+            {hoverIndex === row && <div className={styles["vertical-line"]} />}
             <WidgetWrap
               data={widget}
               platform={platform}

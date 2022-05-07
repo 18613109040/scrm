@@ -18,16 +18,16 @@ const Sider = () => {
   };
   return (
     <div className={styles["designer-editor-sider"]}>
-      {sliderWidgets.map((widgets, index) => {
+      {sliderWidgets.map((widgets) => {
         return (
-          <div key={index}>
+          <div key={widgets.id}>
             <div className={styles["h-title"]}>{widgets.title}</div>
             <div className={styles["widgets-panel"]}>
-              {widgets?.children.map((widget, widgetkey) => (
+              {widgets?.children.map((widget) => (
                 <DragContainer
                   onClick={handleClick}
                   data={widget}
-                  key={widgetkey}
+                  key={widget.id}
                   onDragEnd={handleDragEnd}
                   className={styles["drag-item"]}
                 >

@@ -26,7 +26,7 @@ type DragContainerProps = {
   platform?: PlatformType;
   row?: number;
   onExchangeMove?: (dragIndex: number, hoverIndex: number) => void;
-  onMove?: (hoverIndex: number, direction: HoverDirection) => void;
+  onMove?: (hoverIndex: number, direction?: HoverDirection) => void;
 };
 
 const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
@@ -61,32 +61,33 @@ const WidgetWrap: React.FC<DragContainerProps> = forwardRef((props, ref) => {
       if (dragRef.current && monitor.getClientOffset()) {
         const dragIndex = item.row;
         const hoverIndex = row;
+        item.row = hoverIndex;
         console.log("=============", "dragIndex=", dragIndex, "hoverIndex=", hoverIndex);
         // if (dragIndex === hoverIndex) {
         //   return;
         // }
-        item.row = hoverIndex;
-        const hoverBoundingRect = dragRef.current?.getBoundingClientRect();
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-        const clientOffset = monitor.getClientOffset();
+        onMove!(hoverIndex!);
+        // const hoverBoundingRect = dragRef.current?.getBoundingClientRect();
+        // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        // const clientOffset = monitor.getClientOffset();
 
-        const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-        if (hoverClientY < hoverBoundingRect!.height && hoverClientY > 1.2 * hoverMiddleY) {
-          onMove!(hoverIndex!, HoverDirection.BOTTOM);
-          return;
-        }
-        // if (dragIndex! < hoverIndex! && hoverClientY < hoverMiddleY) {
+        // const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
+        // if (hoverClientY < hoverBoundingRect!.height && hoverClientY > 1.2 * hoverMiddleY) {
         //   onMove!(hoverIndex!, HoverDirection.BOTTOM);
         //   return;
         // }
-        // if (dragIndex! > hoverIndex! && hoverClientY > hoverMiddleY) {
+        // // if (dragIndex! < hoverIndex! && hoverClientY < hoverMiddleY) {
+        // //   onMove!(hoverIndex!, HoverDirection.BOTTOM);
+        // //   return;
+        // // }
+        // // if (dragIndex! > hoverIndex! && hoverClientY > hoverMiddleY) {
+        // //   onMove!(hoverIndex!, HoverDirection.TOP);
+        // //   return;
+        // // }
+        // if (hoverClientY > 0 && hoverClientY < 0.8 * hoverMiddleY) {
         //   onMove!(hoverIndex!, HoverDirection.TOP);
         //   return;
         // }
-        if (hoverClientY > 0 && hoverClientY < 0.8 * hoverMiddleY) {
-          onMove!(hoverIndex!, HoverDirection.TOP);
-          return;
-        }
       }
     }
   });
