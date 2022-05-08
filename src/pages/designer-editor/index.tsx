@@ -9,14 +9,15 @@ import { Layout } from "antd";
 import Canvas from "./Canvas";
 import Provider from "./store/provider";
 import type { WidgetProps } from "./typing";
+import Property from "./Property";
 const AppDesigner = () => {
   useEffect(() => {}, []);
   return (
     <div className={styles["designer-editor"]}>
       <Provider>
         <DndProvider backend={HTML5Backend}>
-          {/* <Header />
-          <TopBar /> */}
+          <Header />
+          <TopBar />
           <Layout style={{ height: "calc(100% - 88px)" }}>
             <Layout.Sider theme="light" width="280" className={styles["sider-theme"]}>
               <Sider />
@@ -24,6 +25,7 @@ const AppDesigner = () => {
             <Layout.Content>
               <Canvas />
             </Layout.Content>
+            <Property />
           </Layout>
         </DndProvider>
       </Provider>
