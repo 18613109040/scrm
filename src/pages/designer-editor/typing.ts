@@ -10,6 +10,23 @@ export enum WidgetType {
   /**下拉选择 */
   SELECT
 }
+type StyleProps = {
+  display?: "block" | "inline-block" | "inline" | "flex" | "none" | "initial" | "";
+  marginTop?: number;
+  marginLeft?: number;
+  marginRight?: number;
+  marginBottom?: number;
+  paddingTop?: number;
+  paddingLeft?: number;
+  paddingBottom?: number;
+  paddingRight?: number;
+  margin?: string;
+  padding?: string;
+  flexDirection?: "column" | "column-reverse" | "row" | "row-reverse" | "initial" | "";
+  justifyContent?: "space-between" | "flex-start" | "flex-end" | "space-around" | "center" | "";
+  alignItems?: "center" | "flex-start" | "flex-end" | "";
+  flexWrap?: "wrap" | "nowrap" | "wrap-reverse" | "";
+};
 /** 基础组件类型 */
 export type BaseWidgetProps = {
   /** 是否允许为空 */
@@ -33,6 +50,7 @@ export type BaseWidgetProps = {
   /** 宽度 */
   span?: number;
   row?: number;
+  style?: StyleProps;
 };
 
 export type WidgetProps = BaseWidgetProps;

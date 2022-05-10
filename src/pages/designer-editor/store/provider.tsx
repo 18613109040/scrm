@@ -7,6 +7,7 @@ import Context from "./context";
 type InitStateProps = {
   pages: WidgetProps[][];
   currentPage: number;
+  selectIndex: number;
   dimensions: {
     width: number;
     height: number;
@@ -19,10 +20,23 @@ export type ProviderProps = {
   pushWidget?: (widget: WidgetProps) => void;
   moveWidget?: (fromIndex: number, toIndex: number) => void;
   insertWidget?: (widget: WidgetProps) => void;
+  setPropertyStyle?: (key: string, value: string) => void;
 };
 const inintState: InitStateProps = {
-  pages: [[]],
+  pages: [
+    [
+      {
+        style: {
+          display: "initial",
+          flexDirection: "initial",
+          justifyContent: "",
+          flexWrap: ""
+        }
+      }
+    ]
+  ],
   currentPage: 0,
+  selectIndex: 0,
   dimensions: {
     width: 377,
     height: 669
@@ -37,6 +51,13 @@ const Provider = (props: ProviderProps) => {
     state.pages[state.currentPage].push(widget);
     setState({ ...state });
   }
+  function setPropertyStyle(key: string, value: string) {
+    state.pages[state.currentPage][state.selectIndex].style = {
+      ...state.pages[state.currentPage][state.selectIndex].style,
+      [key]: value
+    };
+    setState({ ...state });
+  }
   function insertWidget(widget: WidgetProps) {
     state.pages[state.currentPage].splice(widget.row! + 1, 0, widget);
     setState({ ...state });
@@ -48,7 +69,7 @@ const Provider = (props: ProviderProps) => {
     setState({ ...state });
   }
   return (
-    <Context.Provider value={{ state, pushWidget, moveWidget, insertWidget }}>
+    <Context.Provider value={{ state, pushWidget, moveWidget, insertWidget, setPropertyStyle }}>
       {props?.children}
     </Context.Provider>
   );

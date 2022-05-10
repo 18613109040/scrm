@@ -16,15 +16,13 @@ const AppDesigner = () => {
     <div className={styles["designer-editor"]}>
       <Provider>
         <DndProvider backend={HTML5Backend}>
-          <Header />
-          <TopBar />
+          {/* <Header />
+          <TopBar /> */}
           <Layout style={{ height: "calc(100% - 88px)" }}>
             <Layout.Sider theme="light" width="280" className={styles["sider-theme"]}>
-              <Sider />
+              {/* <Sider /> */}
             </Layout.Sider>
-            <Layout.Content>
-              <Canvas />
-            </Layout.Content>
+            <Layout.Content>{/* <Canvas /> */}</Layout.Content>
             <Property />
           </Layout>
         </DndProvider>
