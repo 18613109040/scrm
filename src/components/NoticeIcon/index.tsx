@@ -1,11 +1,3 @@
-/*
- * :file description:
- * :name: /hotel-sass/src/components/NoticeIcon/index.tsx
- * :author: 胡东亮
- * :date created: 2021-08-26 14:38:04
- * :last editor: 胡东亮
- * :date last edited: 2021-08-27 14:38:29
- */
 import { useEffect, useState } from "react";
 import { Tag, message, Dropdown, Badge } from "antd";
 import { BellOutlined } from "@ant-design/icons";

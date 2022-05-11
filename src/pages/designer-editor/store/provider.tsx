@@ -20,7 +20,7 @@ export type ProviderProps = {
   pushWidget?: (widget: WidgetProps) => void;
   moveWidget?: (fromIndex: number, toIndex: number) => void;
   insertWidget?: (widget: WidgetProps) => void;
-  setPropertyStyle?: (key: string, value: string) => void;
+  setPropertyStyle?: (key: string, value: string | number) => void;
 };
 const inintState: InitStateProps = {
   pages: [
@@ -51,7 +51,7 @@ const Provider = (props: ProviderProps) => {
     state.pages[state.currentPage].push(widget);
     setState({ ...state });
   }
-  function setPropertyStyle(key: string, value: string) {
+  function setPropertyStyle(key: string, value: string | number) {
     state.pages[state.currentPage][state.selectIndex].style = {
       ...state.pages[state.currentPage][state.selectIndex].style,
       [key]: value

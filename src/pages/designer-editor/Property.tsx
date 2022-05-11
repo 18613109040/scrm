@@ -1,15 +1,34 @@
 import type { ReactElement } from "react";
-import React, { ReactNode, useContext, useMemo } from "react";
-import type { RadioChangeEvent } from "antd";
-import { Tabs, Collapse, Button, Image, Tooltip, Radio, Input, Row, Col } from "antd";
+import React, { useContext } from "react";
 
+import {
+  Tabs,
+  Collapse,
+  Button,
+  Image,
+  Tooltip,
+  Radio,
+  Input,
+  Row,
+  Col,
+  Select,
+  InputNumber,
+  Upload,
+  message,
+  AutoComplete
+} from "antd";
+import { FileImageOutlined } from "@ant-design/icons";
 import styles from "./property.less";
 import { BASE_OSS_URL } from "@/constant";
 import Context from "./store/context";
+import ColorPicker from "@/components/ColorPicker";
+import type { UploadChangeParam } from "antd/lib/upload";
+import type { UploadFile } from "antd/lib/upload/interface";
+const { Dragger } = Upload;
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
-type PropertyProps = {};
-const Property: React.FC<PropertyProps> = (): ReactElement => {
+
+const Property: React.FC = (): ReactElement => {
   const { state, setPropertyStyle } = useContext(Context);
   const { pages, currentPage, selectIndex } = state!;
   if (pages[currentPage].length > 0 && pages[currentPage][selectIndex]) {
@@ -142,7 +161,127 @@ const Property: React.FC<PropertyProps> = (): ReactElement => {
         value: "stretch"
       }
     ];
-    const handleSetStyle = (key: string, value: string) => {
+    const positionOptions = [
+      {
+        label: "默认",
+        value: "static"
+      },
+      {
+        label: "相对",
+        value: "relative"
+      },
+      {
+        label: "绝对",
+        value: "absolute"
+      },
+      {
+        label: "固定",
+        value: "fixed"
+      }
+    ];
+    const fontWeightOptions = [
+      {
+        label: "细",
+        value: 300
+      },
+      {
+        label: "正常",
+        value: 400
+      },
+      {
+        label: "粗",
+        value: 600
+      }
+    ];
+    const textAlignOptions = [
+      {
+        img: "text-align-left",
+        activeImg: "text-align-left_active",
+        tip: "左对齐",
+        value: "left"
+      },
+      {
+        img: "text-align-center",
+        activeImg: "text-align-center_active",
+        tip: "居中对齐",
+        value: "center"
+      },
+      {
+        img: "text-align-right",
+        activeImg: "text-align-right_active",
+        tip: "右对齐",
+        value: "right"
+      },
+      {
+        img: "text-align-justify",
+        activeImg: "text-align-justify_active",
+        tip: "两端对齐",
+        value: "justify"
+      }
+    ];
+    const backgroundOptions = [
+      {
+        label: "无填充",
+        value: "none"
+      },
+      {
+        label: "颜色填充",
+        value: "background"
+      },
+      {
+        label: "图片填充",
+        value: "background"
+      }
+    ];
+    const backgroundRepeatOptions = [
+      {
+        label: "不重复",
+        value: "no-repeat"
+      },
+      {
+        label: "水平重复",
+        value: "repeat-x"
+      },
+      {
+        label: "垂直重复",
+        value: "repeat-y"
+      },
+      {
+        label: "水平垂直重复",
+        value: "repeat"
+      }
+    ];
+    const borderStyleOptions = [
+      {
+        label: "无",
+        value: "none"
+      },
+      {
+        label: "实线",
+        value: "solid"
+      },
+      {
+        label: "虚线",
+        value: "dashed"
+      }
+    ];
+    const uploadProps = {
+      name: "file",
+      multiple: true,
+      action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+      onChange(info: UploadChangeParam<UploadFile<any>>) {
+        const { status } = info.file;
+        if (status !== "uploading") {
+          console.log(info.file, info.fileList);
+        }
+        if (status === "done") {
+          message.success(`${info.file.name} file uploaded successfully.`);
+        } else if (status === "error") {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      }
+    };
+    const handleSetStyle = (key: string, value: string | number) => {
       setPropertyStyle!(key, value);
     };
 
@@ -155,20 +294,24 @@ const Property: React.FC<PropertyProps> = (): ReactElement => {
                 <div className={styles["box-inner-w"]} />
                 <Input
                   bordered={false}
+                  size="small"
                   onChange={(e) => handleSetStyle("paddingLeft", e.target.value)}
                   className={`${styles["box-input"]} ${styles["left-input"]}`}
                 />
                 <Input
+                  size="small"
                   bordered={false}
                   onChange={(e) => handleSetStyle("paddingRight", e.target.value)}
                   className={`${styles["box-input"]} ${styles["right-input"]}`}
                 />
                 <Input
+                  size="small"
                   bordered={false}
                   onChange={(e) => handleSetStyle("paddingTop", e.target.value)}
                   className={`${styles["box-input"]} ${styles["top-input"]}`}
                 />
                 <Input
+                  size="small"
                   bordered={false}
                   onChange={(e) => handleSetStyle("paddingBottom", e.target.value)}
                   className={`${styles["box-input"]} ${styles["bottom-input"]}`}
@@ -181,21 +324,25 @@ const Property: React.FC<PropertyProps> = (): ReactElement => {
               </div>
             </div>
             <Input
+              size="small"
               bordered={false}
               onChange={(e) => handleSetStyle("marginLeft", e.target.value)}
               className={`${styles["box-input"]} ${styles["left-input"]}`}
             />
             <Input
+              size="small"
               bordered={false}
               onChange={(e) => handleSetStyle("marginRight", e.target.value)}
               className={`${styles["box-input"]} ${styles["right-input"]}`}
             />
             <Input
+              size="small"
               bordered={false}
               onChange={(e) => handleSetStyle("marginTop", e.target.value)}
               className={`${styles["box-input"]} ${styles["top-input"]}`}
             />
             <Input
+              size="small"
               bordered={false}
               onChange={(e) => handleSetStyle("marginBottom", e.target.value)}
               className={`${styles["box-input"]} ${styles["bottom-input"]}`}
@@ -209,10 +356,10 @@ const Property: React.FC<PropertyProps> = (): ReactElement => {
           <Input.Group>
             <Row>
               <Col span={11}>
-                <Input addonBefore="宽" placeholder="px, %" />
+                <Input addonBefore="宽" size="small" placeholder="px, %" />
               </Col>
               <Col span={11} offset={2}>
-                <Input addonBefore="高" placeholder="px, %" />
+                <Input addonBefore="高" size="small" placeholder="px, %" />
               </Col>
             </Row>
           </Input.Group>
@@ -284,7 +431,7 @@ const Property: React.FC<PropertyProps> = (): ReactElement => {
             Content of Tab Pane 1
           </TabPane>
           <TabPane tab="样式" key="2">
-            <Collapse defaultActiveKey={["1"]}>
+            <Collapse defaultActiveKey={["1"]} bordered={false}>
               <Panel header="布局" key="1">
                 <div className={styles["property-line"]}>
                   <div className={styles["item-title"]}>布局模式</div>
@@ -307,20 +454,276 @@ const Property: React.FC<PropertyProps> = (): ReactElement => {
                     ))}
                   </div>
                 </div>
-                {/* {renderFlexPanel()} */}
+                {renderFlexPanel()}
                 {renderStyleBox()}
               </Panel>
               <Panel header="定位" key="2">
                 <div className={styles["property-title"]}>定位</div>
+                <Radio.Group
+                  onChange={(e) => handleSetStyle("position", e.target.value)}
+                  size="small"
+                  options={positionOptions}
+                  value={style?.position}
+                  optionType="button"
+                />
               </Panel>
               <Panel header="字体" key="3">
-                <div />
+                <Row justify="space-between" align="middle">
+                  <Col>
+                    <div className={styles["property-title"]}>粗细</div>
+                  </Col>
+                  <Col>
+                    <Select
+                      size="small"
+                      style={{ width: "120px" }}
+                      options={fontWeightOptions}
+                      onChange={(value) => handleSetStyle("fontWeight", value)}
+                      placeholder="粗细"
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>字号</div>
+                  </Col>
+                  <Col>
+                    <InputNumber
+                      size="small"
+                      style={{ width: "120px" }}
+                      onChange={(value) => handleSetStyle("fontSize", value)}
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>行高</div>
+                  </Col>
+                  <Col>
+                    <InputNumber
+                      size="small"
+                      style={{ width: "120px" }}
+                      onChange={(val) => handleSetStyle("lineHeight", val)}
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>颜色</div>
+                  </Col>
+                  <Col>
+                    <ColorPicker
+                      value={style?.color}
+                      className={styles["color-picker-line"]}
+                      onChange={(value) => handleSetStyle("color", value)}
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>对齐</div>
+                  </Col>
+                  <Col>
+                    {textAlignOptions.map((option) => (
+                      <Tooltip title={option.tip} key={option.tip}>
+                        <Button
+                          onClick={() => handleSetStyle("textAlign", option.value)}
+                          type="text"
+                          icon={
+                            <Image
+                              src={`${BASE_OSS_URL}/${
+                                style?.display === option.value ? option.activeImg : option.img
+                              }.svg`}
+                              width={16}
+                              preview={false}
+                            />
+                          }
+                        />
+                      </Tooltip>
+                    ))}
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>不透明度</div>
+                  </Col>
+                  <Col>
+                    <InputNumber
+                      size="small"
+                      style={{ width: "120px" }}
+                      min={0}
+                      max={100}
+                      formatter={(value) => `${value}%`}
+                      parser={(value: any) => value.toString().replace("%", "")}
+                      onChange={(value) => handleSetStyle("opacity", value)}
+                    />
+                  </Col>
+                </Row>
               </Panel>
               <Panel header="背景" key="4">
-                <div />
+                <div className={styles["property-title"]}>填充方式</div>
+                <Radio.Group
+                  onChange={(e) => handleSetStyle("background", e.target.value)}
+                  size="small"
+                  options={backgroundOptions}
+                  value={style?.background}
+                  optionType="button"
+                />
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>颜色</div>
+                  </Col>
+                  <Col>
+                    <ColorPicker
+                      value={style?.color}
+                      className={styles["color-picker-line"]}
+                      onChange={(value) => handleSetStyle("color", value)}
+                    />
+                  </Col>
+                </Row>
+                <div className={styles["property-title"]}>图片地址</div>
+                <Dragger {...uploadProps}>
+                  <p className="ant-upload-drag-icon">
+                    <FileImageOutlined />
+                  </p>
+                  <p className="ant-upload-hint">点击选择图片</p>
+                </Dragger>
+                <div className={styles["row-item"]}>
+                  <Input placeholder="输入图片url" />
+                </div>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>宽高尺寸</div>
+                  </Col>
+                  <Col>
+                    <AutoComplete
+                      size="small"
+                      style={{ width: "120px" }}
+                      options={[
+                        { label: "auto 原图尺寸", value: "auto" },
+                        { label: "100% auto 宽度拉伸,高度自适应", value: "100% auto" },
+                        { label: "100% auto 宽度自适应,高度拉伸", value: "auto 100%" },
+                        { label: "100% 100% 宽度高度均匀拉伸", value: "100% 100%" }
+                      ]}
+                    />
+                  </Col>
+                </Row>
+                <div className={styles["property-title"]}>图片位置</div>
+                <Row justify="space-between" align="middle">
+                  <Col>
+                    <div className={styles["property-title"]}>重复方式</div>
+                  </Col>
+                  <Col>
+                    <Select
+                      size="small"
+                      style={{ width: "120px" }}
+                      options={backgroundRepeatOptions}
+                      onChange={(value) => handleSetStyle("backgroundRepeat", value)}
+                      placeholder="请选择"
+                    />
+                  </Col>
+                </Row>
               </Panel>
               <Panel header="边框" key="5">
-                <div />
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>类型</div>
+                  </Col>
+                  <Col>
+                    <Radio.Group
+                      onChange={(e) => handleSetStyle("borderStyle", e.target.value)}
+                      size="small"
+                      options={borderStyleOptions}
+                      value={style?.borderStyle}
+                      optionType="button"
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>颜色</div>
+                  </Col>
+                  <Col>
+                    <ColorPicker
+                      value={style?.borderColor}
+                      className={styles["color-picker-line"]}
+                      onChange={(value) => handleSetStyle("borderColor", value)}
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>宽度</div>
+                  </Col>
+                  <Col>
+                    <InputNumber
+                      size="small"
+                      style={{ width: "120px" }}
+                      onChange={(value) => handleSetStyle("borderWidth", value)}
+                    />
+                  </Col>
+                </Row>
+                <Row justify="space-between" align="middle" className={styles["row-item"]}>
+                  <Col>
+                    <div className={styles["property-title"]}>圆角</div>
+                  </Col>
+                  <Col flex={1} offset={2}>
+                    <Row justify="space-between" align="middle">
+                      <Col flex={1}>
+                        <InputNumber
+                          onChange={(value) => handleSetStyle("borderTopLeftRadius", value)}
+                          addonBefore={
+                            <Image
+                              width={16}
+                              src={`${BASE_OSS_URL}/top-left-border.svg`}
+                              preview={false}
+                            />
+                          }
+                        />
+                      </Col>
+                      <Col flex={1}>
+                        <InputNumber
+                          onChange={(value) => handleSetStyle("borderTopRightRadius", value)}
+                          addonBefore={
+                            <Image
+                              width={16}
+                              src={`${BASE_OSS_URL}/top-left-border.svg`}
+                              style={{ transform: "rotate(90deg)" }}
+                              preview={false}
+                            />
+                          }
+                        />
+                      </Col>
+                    </Row>
+                    <Row justify="space-between" align="middle">
+                      <Col>
+                        <InputNumber
+                          onChange={(value) => handleSetStyle("borderBottomLeftRadius", value)}
+                          addonBefore={
+                            <Image
+                              width={16}
+                              src={`${BASE_OSS_URL}/top-left-border.svg`}
+                              style={{ transform: "rotate(-90deg)" }}
+                              preview={false}
+                            />
+                          }
+                        />
+                      </Col>
+                      <Col>
+                        <InputNumber
+                          onChange={(value) => handleSetStyle("borderBottomRightRadius", value)}
+                          addonBefore={
+                            <Image
+                              width={16}
+                              src={`${BASE_OSS_URL}/top-left-border.svg`}
+                              style={{ transform: "rotate(180deg)" }}
+                              preview={false}
+                            />
+                          }
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
               </Panel>
             </Collapse>
           </TabPane>

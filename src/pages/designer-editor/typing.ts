@@ -26,6 +26,21 @@ type StyleProps = {
   justifyContent?: "space-between" | "flex-start" | "flex-end" | "space-around" | "center" | "";
   alignItems?: "center" | "flex-start" | "flex-end" | "";
   flexWrap?: "wrap" | "nowrap" | "wrap-reverse" | "";
+  position?: "static" | "relative" | "absolute" | "fixed" | "";
+  fontSize?: number;
+  lineHeight?: number;
+  color?: string;
+  textAlign?: "center" | "left" | "right" | "justify" | "";
+  opacity?: number;
+  background?: string;
+  backgroundRepeat?: "repeat" | "repeat-x" | "repeat-y" | "no-repeat" | "initial" | "inherit";
+  borderStyle?: "none" | "dashed" | "solid";
+  borderColor?: string;
+  borderWidth?: number;
+  borderTopLeftRadius?: number;
+  borderTopRightRadius?: number;
+  borderBottomRightRadius?: number;
+  borderBottomLeftRadius?: number;
 };
 /** 基础组件类型 */
 export type BaseWidgetProps = {

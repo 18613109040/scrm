@@ -1,11 +1,15 @@
 .property-panel {
   width: 280px;
   padding-top: 16px;
+  overflow: scroll;
+  font-size: 12px;
   background: #fff;
   .property-tabs {
-    padding: 0 16px;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   .property-title {
+    min-width: 30px;
     margin-top: 10px;
     margin-bottom: 8px;
     color: #7c848e;
@@ -30,6 +34,7 @@
     position: relative;
     width: 100%;
     height: 90px;
+    margin-top: 8px;
     margin-bottom: 8px;
     padding: 18px;
     overflow: hidden;
@@ -130,10 +135,37 @@
       transition: all 0.3s;
     }
   }
+  .color-picker-line {
+    width: 120px !important;
+  }
+  .row-item {
+    margin-top: 5px;
+  }
   :global {
+    .ant-collapse {
+      background: none !important;
+    }
+    .ant-input-number-handler-wrap {
+      display: none;
+    }
+    .ant-row {
+      flex-wrap: nowrap;
+    }
+    .ant-tabs-nav {
+      padding: 0 16px 0 16px;
+      &::before {
+        border: none !important;
+      }
+    }
     .ant-tabs-nav-wrap {
       background-color: #e3e6eb;
       border-radius: 5px;
+    }
+    .ant-radio-group-small {
+      .ant-radio-button-wrapper {
+        padding: 0 9px !important;
+        font-size: 12px !important;
+      }
     }
     .ant-tabs-nav-list {
       width: 100%;
@@ -156,6 +188,9 @@
       .ant-tabs-tab-btn {
         color: rgba(0, 0, 0, 0.9);
       }
+    }
+    .ant-collapse-content-box {
+      padding: 13px 16px !important;
     }
   }
 }
